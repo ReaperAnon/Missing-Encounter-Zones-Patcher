@@ -30,7 +30,7 @@ namespace MissingEncounterZonesPatcher
 
             foreach (var mezfLocation in mezfEntries.Locations)
             {
-                if (!mezfLocation.AsLink().TryResolve(state.LinkCache, out var winningRecordGetter)) continue;
+                if (!mezfLocation.ToLink().TryResolve(state.LinkCache, out var winningRecordGetter)) continue;
                 if (mezfLocation.Equals(winningRecordGetter)) continue;
 
                 ILocation winningRecord = state.PatchMod.Locations.GetOrAddAsOverride(winningRecordGetter);
@@ -44,7 +44,7 @@ namespace MissingEncounterZonesPatcher
                 {
                     foreach(var mezfCell in mezfSubCellBlock.Cells)
                     {
-                        if (!mezfCell.AsLink().TryResolveContext<ISkyrimMod, ISkyrimModGetter, ICell, ICellGetter>(state.LinkCache, out var winningRecordContext)) continue;
+                        if (!mezfCell.ToLink().TryResolveContext<ISkyrimMod, ISkyrimModGetter, ICell, ICellGetter>(state.LinkCache, out var winningRecordContext)) continue;
                         if (winningRecordContext.Record.Equals(mezfCell)) continue;
                         
                         ICell winningRecord = winningRecordContext.GetOrAddAsOverride(state.PatchMod);
@@ -56,7 +56,7 @@ namespace MissingEncounterZonesPatcher
 
             foreach (var mezfWorldspace in mezfEntries.Worldspaces)
             {
-                if(mezfWorldspace.AsLink().TryResolveContext<ISkyrimMod, ISkyrimModGetter, IWorldspace, IWorldspaceGetter>(state.LinkCache, out var winningWorldspaceContext))
+                if(mezfWorldspace.ToLink().TryResolveContext<ISkyrimMod, ISkyrimModGetter, IWorldspace, IWorldspaceGetter>(state.LinkCache, out var winningWorldspaceContext))
                 {
                     if(!winningWorldspaceContext.Record.Equals(mezfWorldspace))
                     {
@@ -72,7 +72,7 @@ namespace MissingEncounterZonesPatcher
                     {
                         foreach(var mezfCell in mezfSubCellBlock.Items)
                         {
-                            if (!mezfCell.AsLink().TryResolveContext<ISkyrimMod, ISkyrimModGetter, ICell, ICellGetter>(state.LinkCache, out var winningCellContext)) continue;
+                            if (!mezfCell.ToLink().TryResolveContext<ISkyrimMod, ISkyrimModGetter, ICell, ICellGetter>(state.LinkCache, out var winningCellContext)) continue;
                             if (winningCellContext.Record.Equals(mezfCell)) continue;
 
                             ICell winningRecord = winningCellContext.GetOrAddAsOverride(state.PatchMod);
